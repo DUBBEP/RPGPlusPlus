@@ -1,4 +1,4 @@
 # RPG
  rpg
 
-Build: https://dubbep.github.io/RPG/
+Build: https://dubbep.github.io/RPGPlusPlus/
