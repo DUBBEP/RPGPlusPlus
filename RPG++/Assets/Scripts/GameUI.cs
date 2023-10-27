@@ -19,6 +19,8 @@ public class GameUI : MonoBehaviour
     [Header("GamesScreen")]
     public string selectedGame;
     public Button PlayGameButton;
+    public GameObject GoldGrindersPreview;
+    public GameObject AxeThrowersPreview;
 
     [Header("UnpausedUI")]
     public TextMeshProUGUI goldText;
@@ -95,11 +97,28 @@ public class GameUI : MonoBehaviour
 
     public void OnStartButton()
     {
+        if (selectedGame == "None")
+            return;
         NetworkManager.instance.photonView.RPC("ChangeScene", RpcTarget.All, selectedGame);
+    }
+
+
+    void SetPreview(GameObject preview)
+    {
+        GoldGrindersPreview.SetActive(false);
+        AxeThrowersPreview.SetActive(false);
+
+        preview.SetActive(true);
     }
 
     public void OnSelectGameButton(Button buttonClicked)
     {
         selectedGame = buttonClicked.GetComponentInChildren<TMP_Text>().text;
+
+        if (selectedGame == "GoldGrinders")
+            SetPreview(GoldGrindersPreview);
+        else if (selectedGame == "AxeThrowers")
+            SetPreview(AxeThrowersPreview);
+
     }
 }

@@ -51,6 +51,10 @@ public class GameManager : MonoBehaviourPun
                     photonView.RPC("InitializeGoldGrinders", RpcTarget.All);
                 }
                 break;
+            case "AxeThrowers":
+                if (PhotonNetwork.IsMasterClient)
+                    photonView.RPC("InitializeAxeThrowers", RpcTarget.All);
+                break;
         }
     }
 
@@ -75,6 +79,29 @@ public class GameManager : MonoBehaviourPun
             countdown.gameObject.SetActive(false);
             PlayerController.me.DisableControls = false;
             GoldGrindersManager.instance.Initialize();
+        }
+    }
+
+    [PunRPC]
+    void InitializeAxeThrowers()
+    {
+        StartCoroutine(CountDown());
+
+        IEnumerator CountDown()
+        {
+            PlayerController.me.DisableControls = true;
+            int count = 5;
+            countdown.text = string.Format("<b>{0}</b>", count);
+            while (count > 0)
+            {
+                yield return new WaitForSeconds(1f);
+                count--;
+                countdown.text = string.Format("<b>{0}</b>", count);
+
+            }
+            countdown.gameObject.SetActive(false);
+            PlayerController.me.DisableControls = false;
+            AxeThrowersManager.instance.Initialize();
         }
     }
 

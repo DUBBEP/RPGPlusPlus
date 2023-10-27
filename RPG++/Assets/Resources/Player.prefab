@@ -24,8 +24,8 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2137652957892562939}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0.328, z: 0}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: -0.000000029802322, y: 0.32800004, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -99,6 +99,7 @@ GameObject:
   - component: {fileID: 7623565435087944030}
   - component: {fileID: 347701113110474995}
   - component: {fileID: 1104337832988083496}
+  - component: {fileID: 5979100118786558044}
   m_Layer: 0
   m_Name: Player
   m_TagString: Player
@@ -226,15 +227,23 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   id: 0
   moveSpeed: 3
+  curAttackerId: 0
+  kills: 0
   gold: 0
   curHp: 100
   maxHp: 100
   dead: 0
   DisableControls: 0
   facingLeft: 0
+  weaponThrow: 0
+  SwordSprite: {fileID: -779707478, guid: 7d621aebcfbca0c4884f567dcdc4b69c, type: 3}
+  AxeSprite: {fileID: -220332401, guid: 7d621aebcfbca0c4884f567dcdc4b69c, type: 3}
+  CurrentWeapon: {fileID: 5536267047743425530}
   damage: 10
   attackRange: 1
   attackRate: 0.2
+  WeaponProjectilePefab: {fileID: 8528574772033127228, guid: 2c83d720e0712e24cbda65f6ad2cbd48, type: 3}
+  throwSpeed: 20
   rig: {fileID: 3966300665602874829}
   sr: {fileID: 4421736322868462359}
   weaponAnim: {fileID: 4525170656419663041}
@@ -278,6 +287,22 @@ MonoBehaviour:
   m_SynchronizeRotation: 0
   m_SynchronizeScale: 1
   m_UseLocal: 1
+--- !u!70 &5979100118786558044
+CapsuleCollider2D:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4421736322868462358}
+  m_Enabled: 1
+  m_Density: 1
+  m_Material: {fileID: 0}
+  m_IsTrigger: 1
+  m_UsedByEffector: 0
+  m_UsedByComposite: 0
+  m_Offset: {x: 0, y: 0}
+  m_Size: {x: 0.91, y: 0.875}
+  m_Direction: 0
 --- !u!1 &5196406311861703366
 GameObject:
   m_ObjectHideFlags: 0
@@ -373,6 +398,10 @@ PrefabInstance:
     - target: {fileID: 2149747019568882880, guid: 5513e205a8989c84fb36cb36c4e7d452, type: 3}
       propertyPath: m_Name
       value: HeaderInfo
+      objectReference: {fileID: 0}
+    - target: {fileID: 7419724589717264630, guid: 5513e205a8989c84fb36cb36c4e7d452, type: 3}
+      propertyPath: m_PresetInfoIsWorld
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 7977425513685965705, guid: 5513e205a8989c84fb36cb36c4e7d452, type: 3}
       propertyPath: m_Pivot.x

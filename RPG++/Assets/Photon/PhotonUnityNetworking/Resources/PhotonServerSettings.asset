@@ -53,6 +53,9 @@ MonoBehaviour:
   - UpdateGoldList
   - ChangeDirection
   - GetSpawnPoint
+  - ChangeWeapons
+  - InitializeAxeThrowers
+  - AddKill
   DisableAutoOpenWizard: 1
   ShowSettings: 0
   DevRegionSetOnce: 1

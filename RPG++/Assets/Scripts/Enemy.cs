@@ -67,7 +67,7 @@ public class Enemy : MonoBehaviourPun
     void Attack()
     {
         lastAttackTime = Time.time;
-        targetPlayer.photonView.RPC("TakeDamage", targetPlayer.photonPlayer, damage);
+        targetPlayer.photonView.RPC("TakeDamage", targetPlayer.photonPlayer, 0,damage);
     }
 
     // updates the targeted player

@@ -6,7 +6,8 @@ using Photon.Pun;
 public enum PickupType
 {
     Gold,
-    Health
+    Health,
+    Axe
 }
 public class Pickup : MonoBehaviourPun
 {
@@ -25,6 +26,8 @@ public class Pickup : MonoBehaviourPun
                 player.photonView.RPC("GiveGold", RpcTarget.All, value, player.id);
             else if (type == PickupType.Health)
                 player.photonView.RPC("Heal", player.photonPlayer, value);
+            else if (type == PickupType.Axe)
+                player.photonView.RPC("ChangeWeapons", RpcTarget.All, "Axe", player.id);
 
             PhotonNetwork.Destroy(gameObject);
         }

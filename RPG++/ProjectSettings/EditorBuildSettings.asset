@@ -14,4 +14,7 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/Scenes/GoldGrinders.unity
     guid: 8fbf7e9e1f37a7f42b932a9bf538526a
+  - enabled: 1
+    path: Assets/Scenes/AxeThrowers.unity
+    guid: 920d823b797634c4984001352487db3f
   m_configObjects: {}
