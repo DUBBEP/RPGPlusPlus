@@ -23,7 +23,14 @@ public class NetworkManager : MonoBehaviourPunCallbacks
     private void Start()
     {
         // connect to master server
-        PhotonNetwork.ConnectUsingSettings();
+        if(!PhotonNetwork.IsConnected)
+            PhotonNetwork.ConnectUsingSettings();
+        else
+        {
+            PhotonNetwork.Disconnect();
+            PhotonNetwork.ConnectUsingSettings();
+
+        }
     }
 
     public override void OnConnectedToMaster()
@@ -53,5 +60,6 @@ public class NetworkManager : MonoBehaviourPunCallbacks
     public override void OnDisconnected(DisconnectCause cause)
     {
         PhotonNetwork.LoadLevel("Menu");
+        Destroy(this.gameObject);
     }
 }

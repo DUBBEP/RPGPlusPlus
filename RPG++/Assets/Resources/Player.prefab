@@ -230,6 +230,7 @@ MonoBehaviour:
   curHp: 100
   maxHp: 100
   dead: 0
+  DisableControls: 0
   damage: 10
   attackRange: 1
   attackRate: 0.2

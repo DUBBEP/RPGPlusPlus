@@ -15,7 +15,7 @@ public class PlayerController : MonoBehaviourPun
     public int curHp;
     public int maxHp;
     public bool dead;
-    public bool pauseMenuOpen;
+    public bool DisableControls;
 
     [Header("Attack")]
     public int damage;
@@ -38,9 +38,9 @@ public class PlayerController : MonoBehaviourPun
     {
         id = player.ActorNumber;
         photonPlayer = player;
-        pauseMenuOpen = false;
         GameManager.instance.players[id - 1] = this;
 
+        gold = 0;
         // initialize the health bar
         headerInfo.Initialize(player.NickName, maxHp);
 
@@ -48,6 +48,7 @@ public class PlayerController : MonoBehaviourPun
             me = this;
         else
             rig.isKinematic = true;
+
     }
 
     void Update()
@@ -55,8 +56,11 @@ public class PlayerController : MonoBehaviourPun
         if (!photonView.IsMine)
             return;
 
-        if (pauseMenuOpen)
+        if (DisableControls)
+        {
+            rig.velocity = new Vector2 (0, 0);
             return;
+        }
 
         Move();
 
@@ -179,6 +183,13 @@ public class PlayerController : MonoBehaviourPun
         gold += goldToGive;
 
         // update UI
-        GameUI.instance.UpdateGoldText(gold);
+        if (GameUI.instance != null)
+        {
+            GameUI.instance.UpdateGoldText(gold);
+        }
+        else if (GoldGrindersUI.instance != null)
+        {
+            GoldGrindersUI.instance.UpdateGoldText(gold);
+        }
     }
 }

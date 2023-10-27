@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using UnityEngine;
 using Photon.Pun;
 using System.Linq;
+using TMPro;
+using UnityEngine.SceneManagement;
 
 public class GameManager : MonoBehaviourPun
 {
@@ -13,6 +15,10 @@ public class GameManager : MonoBehaviourPun
     public float respawnTime;
 
     private int playersInGame;
+
+    [Header("GoldGrinders")]
+    public TextMeshProUGUI countdown;
+
 
     // instance
 
@@ -27,6 +33,45 @@ public class GameManager : MonoBehaviourPun
     {
         players = new PlayerController[PhotonNetwork.PlayerList.Length];
         photonView.RPC("ImInGame", RpcTarget.AllBuffered);
+
+        
+    }
+
+    void SceneInitialize(string sceneName)
+    {
+        switch(sceneName)
+        {
+            case "GoldGrinders":
+                if (PhotonNetwork.IsMasterClient)
+                {
+                    photonView.RPC("InitializeGoldGrinders", RpcTarget.All);
+                }
+                break;
+        }
+    }
+
+    [PunRPC]
+    void InitializeGoldGrinders()
+    {
+
+        StartCoroutine(CountDown());
+        
+        IEnumerator CountDown()
+        {
+            PlayerController.me.DisableControls = true;
+            int count = 5;
+            countdown.text = string.Format("<b>{0}</b>", count);
+            while (count > 0)
+            {
+                yield return new WaitForSeconds(1f);
+                count--;
+                countdown.text = string.Format("<b>{0}</b>", count);
+
+            }
+            countdown.gameObject.SetActive(false);
+            PlayerController.me.DisableControls = false;
+            GoldGrindersManager.instance.Initialize();
+        }
     }
 
     [PunRPC]
@@ -36,6 +81,7 @@ public class GameManager : MonoBehaviourPun
 
         if (playersInGame == PhotonNetwork.PlayerList.Length)
             SpawnPlayer();
+            SceneInitialize(SceneManager.GetActiveScene().name);
     }
 
     void SpawnPlayer()

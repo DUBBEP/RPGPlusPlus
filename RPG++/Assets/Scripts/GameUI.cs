@@ -4,10 +4,8 @@ using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
 using Photon.Pun;
-using Photon.Realtime;
 
-
-public class GameUI : MonoBehaviourPunCallbacks, ILobbyCallbacks
+public class GameUI : MonoBehaviour
 {
     [Header("Screens")]
     public GameObject PauseMenuScreen;
@@ -16,19 +14,14 @@ public class GameUI : MonoBehaviourPunCallbacks, ILobbyCallbacks
     public GameObject GamesScreen;
 
     [Header("PauseMenuScreen")]
-    public Button LeaveMenuButton;
     public bool pauseMenuIsOpen;
 
-    [Header("PauseMainScreen")]
-    public Button MiniGamesButton;
-    public Button LeaveButton;
-
     [Header("GamesScreen")]
-    // add Game Buttons
+    public string selectedGame;
+    public Button PlayGameButton;
 
     [Header("UnpausedUI")]
     public TextMeshProUGUI goldText;
-    public Button OpenPauseMenuButton;
 
     // instance
     public static GameUI instance;
@@ -38,7 +31,7 @@ public class GameUI : MonoBehaviourPunCallbacks, ILobbyCallbacks
         instance = this;
     }
 
-    void start()
+    void Start()
     {
         pauseMenuIsOpen = false;
     }
@@ -64,7 +57,7 @@ public class GameUI : MonoBehaviourPunCallbacks, ILobbyCallbacks
         {
             PauseMenuScreen.SetActive(false);
             UnpausedUI.SetActive(true);
-            PlayerController.me.pauseMenuOpen = false;
+            PlayerController.me.DisableControls = false;
             pauseMenuIsOpen = false;
         }
         else
@@ -72,7 +65,7 @@ public class GameUI : MonoBehaviourPunCallbacks, ILobbyCallbacks
             PauseMenuScreen.SetActive(true);
             SetMenuScreen(PauseMainScreen);
             UnpausedUI.SetActive(false);
-            PlayerController.me.pauseMenuOpen = true;
+            PlayerController.me.DisableControls = true;
             pauseMenuIsOpen = true;
         }
     }
@@ -82,24 +75,31 @@ public class GameUI : MonoBehaviourPunCallbacks, ILobbyCallbacks
     public void OnLeaveGameButton()
     {
         NetworkManager.instance.ChangeScene("Menu");
+        Destroy(NetworkManager.instance.gameObject);
     }
     
     public void OnMiniGamesButton()
     {
         SetMenuScreen(GamesScreen);
+
     }
     
     // GAMES SCREEN
 
     public void OnBackButton()
     {
-
+        SetMenuScreen(PauseMainScreen);
+        if (!PhotonNetwork.IsMasterClient)
+            PlayGameButton.interactable = false;
     }
 
     public void OnStartButton()
     {
-        //impliment later
+        NetworkManager.instance.photonView.RPC("ChangeScene", RpcTarget.All, selectedGame);
     }
 
-    // impliment select game button
+    public void OnSelectGameButton(Button buttonClicked)
+    {
+        selectedGame = buttonClicked.GetComponentInChildren<TMP_Text>().text;
+    }
 }

@@ -158,10 +158,10 @@ RectTransform:
   m_Father: {fileID: 1949542280}
   m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0, y: 0}
-  m_AnchorMax: {x: 0, y: 0}
-  m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 0, y: 54.4659}
+  m_AnchorMin: {x: 0, y: 1}
+  m_AnchorMax: {x: 0, y: 1}
+  m_AnchoredPosition: {x: 301.25, y: -101.210976}
+  m_SizeDelta: {x: 197.5, y: 54.4659}
   m_Pivot: {x: 0.5, y: -0.8582448}
 --- !u!114 &63186096
 MonoBehaviour:
@@ -613,8 +613,8 @@ RectTransform:
   m_Father: {fileID: 1492278936}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0, y: 0}
-  m_AnchorMax: {x: 0, y: 0}
+  m_AnchorMin: {x: 0, y: 0.4204961}
+  m_AnchorMax: {x: 1, y: 1}
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 20, y: 20}
   m_Pivot: {x: 0.5, y: 0.5}
@@ -691,10 +691,10 @@ RectTransform:
   m_Father: {fileID: 1949542280}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0, y: 0}
-  m_AnchorMax: {x: 0, y: 0}
-  m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 0, y: 54.4659}
+  m_AnchorMin: {x: 0, y: 1}
+  m_AnchorMax: {x: 0, y: 1}
+  m_AnchoredPosition: {x: 98.75, y: -27.23295}
+  m_SizeDelta: {x: 197.5, y: 54.4659}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &288140988
 MonoBehaviour:
@@ -1691,7 +1691,7 @@ MonoBehaviour:
   roomInfoText: {fileID: 1133168575}
   startGameButton: {fileID: 906221666}
   roomListContainer: {fileID: 1849497119}
-  roomButtonPrefab: {fileID: 4158378214640331266, guid: 64911cbbf01f30a4684ed92e4dfa3d2b, type: 3}
+  roomButtonPrefab: {fileID: 4158378214640331266, guid: e0d49bc6795b0eb4d963b2e16beb31a1, type: 3}
 --- !u!1 &793098439
 GameObject:
   m_ObjectHideFlags: 0
@@ -3598,7 +3598,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &1571351999
 RectTransform:
   m_ObjectHideFlags: 0

@@ -11,4 +11,7 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/Scenes/Game.unity
     guid: 0964fea484540c940b2b063777aec67f
+  - enabled: 1
+    path: Assets/Scenes/GoldGrinders.unity
+    guid: 8fbf7e9e1f37a7f42b932a9bf538526a
   m_configObjects: {}

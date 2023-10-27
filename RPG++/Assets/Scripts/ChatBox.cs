@@ -45,7 +45,7 @@ public class ChatBox : MonoBehaviourPun
     [PunRPC]
     void Log (string playerName, string message)
     {
-        chatLogText.text += string.Format("<b>{0}:<b/> {1}\n", playerName, message);
+        chatLogText.text += string.Format("<b>{0}:</b> {1}\n", playerName, message);
 
         chatLogText.rectTransform.sizeDelta = new Vector2(chatLogText.rectTransform.sizeDelta.x, chatLogText.mesh.bounds.size.y + 20);
     }
