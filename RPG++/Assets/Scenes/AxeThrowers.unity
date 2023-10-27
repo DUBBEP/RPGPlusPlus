@@ -21502,7 +21502,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7b9aa1baf9c5c874d94cfc76c64c1551, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  timerStartTime: 51
+  timerStartTime: 81
   WinScreen: {fileID: 632267422}
   Timer: {fileID: 148933124}
   WinText: {fileID: 1760065437}
