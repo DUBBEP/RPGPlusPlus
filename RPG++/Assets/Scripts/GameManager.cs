@@ -5,14 +5,17 @@ using Photon.Pun;
 using System.Linq;
 using TMPro;
 using UnityEngine.SceneManagement;
+using Unity.VisualScripting;
 
 public class GameManager : MonoBehaviourPun
 {
     [Header("Players")]
     public string playerPrefabPath;
     public PlayerController[] players;
+    public bool[] usedSpawnPoints;
     public Transform[] spawnPoints;
     public float respawnTime;
+    public int spawnPointIndex;
 
     private int playersInGame;
 
@@ -32,6 +35,7 @@ public class GameManager : MonoBehaviourPun
     void Start()
     {
         players = new PlayerController[PhotonNetwork.PlayerList.Length];
+        usedSpawnPoints = new bool[spawnPoints.Length];
         photonView.RPC("ImInGame", RpcTarget.AllBuffered);
 
         
@@ -86,12 +90,29 @@ public class GameManager : MonoBehaviourPun
 
     void SpawnPlayer()
     {
-        GameObject playerObj = PhotonNetwork.Instantiate(playerPrefabPath, spawnPoints[(Random.Range(0, spawnPoints.Length))].position, Quaternion.identity);
+        photonView.RPC("GetSpawnPoint", RpcTarget.All);
+        GameObject playerObj = PhotonNetwork.Instantiate(playerPrefabPath, spawnPoints[spawnPointIndex].position, Quaternion.identity);
 
         // initialize Player
         playerObj.GetComponent<PhotonView>().RPC("Initialize", RpcTarget.All, PhotonNetwork.LocalPlayer);
     }
 
+    [PunRPC]
+    void GetSpawnPoint()
+    {
+        bool rolledValidSpawn;
+        do
+        {
+            spawnPointIndex = Random.Range(0, spawnPoints.Length);
+            rolledValidSpawn = true;
+            if (usedSpawnPoints[spawnPointIndex])
+                rolledValidSpawn = false;
+        }
+        while (!rolledValidSpawn);
+
+        usedSpawnPoints[spawnPointIndex] = true;
+
+    }
     public PlayerController GetPlayer(int id)
     {
         foreach (PlayerController player in players)

@@ -22,7 +22,7 @@ public class Pickup : MonoBehaviourPun
             PlayerController player = collision.gameObject.GetComponent<PlayerController>();
 
             if (type == PickupType.Gold)
-                player.photonView.RPC("GiveGold", player.photonPlayer, value);
+                player.photonView.RPC("GiveGold", RpcTarget.All, value, player.id);
             else if (type == PickupType.Health)
                 player.photonView.RPC("Heal", player.photonPlayer, value);
 

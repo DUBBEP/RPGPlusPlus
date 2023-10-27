@@ -6,20 +6,22 @@ using TMPro;
 using UnityEngine.SceneManagement;
 using Photon.Pun;
 using System.Linq;
-using TMPro;
+
 public class GoldGrindersManager : MonoBehaviourPun
 {
     [Header("Info")]
     public float timerStartTime;
     private int playerWithMostGold;
-
+    private int largestSumOfGold;
     private bool timerActive;
+    private bool gameEnded;
     private float timerCurTime;
 
     public GameObject WinScreen;
+    public GameObject Timer;
     public TextMeshProUGUI WinText;
     public TextMeshProUGUI timerText;
-
+    public GameObject[] EnemySpawners;
     
     // instance
     static public GoldGrindersManager instance;
@@ -33,7 +35,11 @@ public class GoldGrindersManager : MonoBehaviourPun
     public void Initialize()
     {
         timerCurTime = timerStartTime;
+        Timer.SetActive(true);
         timerActive = true;
+        largestSumOfGold = 0;
+        playerWithMostGold = 0;
+        ActivateSpawners();
     }
 
     private void Update()
@@ -42,46 +48,65 @@ public class GoldGrindersManager : MonoBehaviourPun
             TimerCountDown();
     }
 
+
+    void ActivateSpawners()
+    {
+        foreach (GameObject spawner in EnemySpawners)
+        {
+            spawner.SetActive(true);
+        }
+    }
+
     void TimerCountDown()
     {
         timerCurTime -= Time.deltaTime;
-        UpdateTimerUI(timerCurTime);
-        if (timerCurTime < 0)
+        UpdateTimerUI((int)timerCurTime);
+        if (timerCurTime < 0 && !gameEnded)
+        {
             EndGame();
+            timerActive = false;
+        }
     }
 
-    void UpdateTimerUI(float timeLeft)
+    void UpdateTimerUI(int timeLeft)
     {
-        timerText.text = Math.Round(timeLeft, 2).ToString();
+        timerText.text = string.Format("<b>{0}</b>", timeLeft);
     }
     void EndGame()
     {
-        
-        Time.timeScale = 0;
+        gameEnded = true;
+        GetWinner();
+        DisplayWinScreen(playerWithMostGold);
+        StartCoroutine(ReturnToGameScene());
 
-        DisplayWinScreen(GetWinner());
+        IEnumerator ReturnToGameScene()
+        {
+            yield return new WaitForSeconds(5);
+            if(PhotonNetwork.IsMasterClient)
+                NetworkManager.instance.photonView.RPC("ChangeScene", RpcTarget.All, "Game");
+        }
+
     }
 
     void DisplayWinScreen(int winnerId)
     {
         PlayerController winner = GameManager.instance.GetPlayer(winnerId);
         WinScreen.SetActive(true);
-        WinText.text = "The winner is" + winner.photonPlayer.NickName;
+        WinText.text = "The winner is " + winner.photonPlayer.NickName;
 
     }
 
-    int GetWinner()
+    [PunRPC]
+    void GetWinner()
     {
-        int largestSumOfGold = 0;
         foreach (PlayerController player in GameManager.instance.players)
         {
             if (player.gold > largestSumOfGold)
             {
-                playerWithMostGold = player.id;
                 largestSumOfGold = player.gold;
+                playerWithMostGold = player.id;
             }
         }
-        return playerWithMostGold;
     }
 }
 

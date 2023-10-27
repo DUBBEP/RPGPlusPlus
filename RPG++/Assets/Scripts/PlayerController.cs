@@ -16,6 +16,7 @@ public class PlayerController : MonoBehaviourPun
     public int maxHp;
     public bool dead;
     public bool DisableControls;
+    public bool facingLeft;
 
     [Header("Attack")]
     public int damage;
@@ -51,6 +52,7 @@ public class PlayerController : MonoBehaviourPun
 
     }
 
+
     void Update()
     {
         if (!photonView.IsMine)
@@ -69,12 +71,35 @@ public class PlayerController : MonoBehaviourPun
 
         float mouseX = (Screen.width / 2) - Input.mousePosition.x;
 
-        if (mouseX < 0)
-            weaponAnim.transform.parent.localScale = new Vector3(1, 1, 1);
-        else
-            weaponAnim.transform.parent.localScale = new Vector3(-1, 1, 1);
+
+        if (mouseX < 0 && !facingLeft)
+            photonView.RPC("ChangeDirection", RpcTarget.All, "left", id);
+        else if (mouseX >= 0 && facingLeft)
+            photonView.RPC("ChangeDirection", RpcTarget.All, "right", id);
+
 
     }
+
+    [PunRPC]
+    void ChangeDirection(string directionToFace, int id)
+    {
+        PlayerController player = GameManager.instance.GetPlayer(id);
+        Debug.Log(directionToFace);
+        if (directionToFace == "right")
+        {
+            player.weaponAnim.transform.parent.localScale = new Vector3(-1, 1, 1);
+            facingLeft = false;
+        }
+        else if (directionToFace == "left")
+        {
+            player.weaponAnim.transform.parent.localScale = new Vector3(1, 1, 1);
+            facingLeft = true;
+        }
+
+
+    }
+
+
 
     void Move ()
     {
@@ -178,18 +203,24 @@ public class PlayerController : MonoBehaviourPun
     }
 
     [PunRPC]
-    void GiveGold (int goldToGive)
+    void GiveGold (int goldToGive, int playerid)
     {
-        gold += goldToGive;
+        PlayerController player = GameManager.instance.GetPlayer(playerid);
+        player.gold += goldToGive;
 
-        // update UI
-        if (GameUI.instance != null)
+        
+        // update UI if this is us
+        if (player == me)
         {
-            GameUI.instance.UpdateGoldText(gold);
+            if (GameUI.instance != null)
+            {
+                GameUI.instance.UpdateGoldText(gold);
+            }
+            else if (GoldGrindersUI.instance != null)
+            {
+                GoldGrindersUI.instance.UpdateGoldText(gold);
+            }
         }
-        else if (GoldGrindersUI.instance != null)
-        {
-            GoldGrindersUI.instance.UpdateGoldText(gold);
-        }
+
     }
 }

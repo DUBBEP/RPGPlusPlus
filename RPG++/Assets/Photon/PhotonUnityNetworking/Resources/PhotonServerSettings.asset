@@ -48,6 +48,11 @@ MonoBehaviour:
   - FlashDamage
   - PlayAttackAnimation
   - InitializeGoldGrinders
+  - GetWinner
+  - UpdateGold
+  - UpdateGoldList
+  - ChangeDirection
+  - GetSpawnPoint
   DisableAutoOpenWizard: 1
   ShowSettings: 0
   DevRegionSetOnce: 1
